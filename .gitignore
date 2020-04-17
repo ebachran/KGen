@@ -1,1 +1,4 @@
 *.pyc
+/ENV
+/.vscode
+/output

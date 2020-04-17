@@ -12,7 +12,7 @@ class AbbrevResolver:
         self.__contents = contents
 
     def resolve(self, verbose=False):
-        print('Looking for abbreviations and their occurences - please wait, as it may take a while ...')
+        print('Looking for abbreviations and their occurrences - please wait, as it may take a while ...')
         return self.__stanford_resolve_abbrevs(verbose)
 
     def __stanford_resolve_abbrevs(self, verbose=False):

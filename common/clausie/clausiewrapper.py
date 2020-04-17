@@ -1,4 +1,5 @@
 import os
+import platform
 
 from subprocess import Popen
 from sys import stderr
@@ -9,7 +10,10 @@ class ClausIEWrapper:
     def run_clausie(input_filename, output_filename, verbose=False):
         source_dir = os.path.dirname(os.path.abspath(__file__))
 
-        jars = '{0}/clausie:{0}/clausie/build:{0}/clausie/clausie_lib/stanford-parser.jar:{0}/clausie/clausie_lib/stanford-parser-2.0.4-models.jar:{0}/clausie/clausie_lib/jopt-simple-4.4.jar'.format(source_dir)
+        if platform.system() == 'Windows':
+            jars = '{0}/clausie;{0}/clausie/build;{0}/clausie/clausie_lib/stanford-parser.jar;{0}/clausie/clausie_lib/stanford-parser-2.0.4-models.jar;{0}/clausie/clausie_lib/jopt-simple-4.4.jar'.format(source_dir)
+        else:
+            jars = '{0}/clausie:{0}/clausie/build:{0}/clausie/clausie_lib/stanford-parser.jar:{0}/clausie/clausie_lib/stanford-parser-2.0.4-models.jar:{0}/clausie/clausie_lib/jopt-simple-4.4.jar'.format(source_dir)
 
         command = 'java -cp "' + jars + '" de.mpii.clausie.ClausIE -f {} -l -o {}'.format(input_filename, output_filename)
 

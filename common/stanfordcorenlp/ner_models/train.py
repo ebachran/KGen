@@ -1,4 +1,5 @@
 import os
+import platform
 import requests
 
 from argparse import ArgumentParser
@@ -13,7 +14,10 @@ def train(prop_filename=None):
     source_dir = os.path.dirname(os.path.abspath(__file__))
 
     jars_dir = source_dir + '/..'
-    jars = '{0}/stanford-corenlp.jar:{0}/stanford-corenlp-models.jar:{0}/slf4j-api.jar:{0}/slf4j-simple.jar:{0}/ejml.jar'.format(jars_dir)
+	if platform.system() == 'Windows':
+    	jars = '{0}/stanford-corenlp.jar;{0}/stanford-corenlp-models.jar;{0}/slf4j-api.jar;{0}/slf4j-simple.jar;{0}/ejml.jar'.format(jars_dir)
+	else:
+    	jars = '{0}/stanford-corenlp.jar:{0}/stanford-corenlp-models.jar:{0}/slf4j-api.jar:{0}/slf4j-simple.jar:{0}/ejml.jar'.format(jars_dir)
 
     command = 'java -mx5g' + \
               ' -cp "' + jars + '" edu.stanford.nlp.ie.crf.CRFClassifier' + \

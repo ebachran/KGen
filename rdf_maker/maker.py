@@ -21,11 +21,12 @@ class RDFMaker:
     __relations = set()
 
     def make(self, triples_filename, links_filename, verbose=False):
-        if not triples_filename.startswith('/'):
-            triples_filename = os.path.dirname(os.path.realpath(__file__)) + '/' + triples_filename
+        # Convert to absolute path name
+        triples_filename = os.path.realpath(triples_filename)
 
-        if not links_filename == None and not links_filename.startswith('/'):
-            links_filename = os.path.dirname(os.path.realpath(__file__)) + '/' + links_filename
+        if not links_filename == None:
+            # Convert to absolute path name
+            links_filename = os.path.realpath(links_filename)
 
         print('Processing triples from {}'.format(triples_filename))
 

@@ -3,7 +3,8 @@ import os
 import urllib.parse
 import urllib.request
 
-from pybabelfy.babelfy import *
+# TODO: Not compatible with Python 3.X?
+#from pybabelfy.babelfy import *
 
 KEY_FILE = 'babelfy.key'
 

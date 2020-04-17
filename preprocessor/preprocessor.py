@@ -4,9 +4,9 @@ from argparse import ArgumentParser
 from sys import argv
 from sys import path
 
-from abbrevresolver import AbbrevResolver
-from corefresolver import CorefResolver
-from simplifier import Simplifier
+from preprocessor.abbrevresolver import AbbrevResolver
+from preprocessor.corefresolver import CorefResolver
+from preprocessor.simplifier import Simplifier
 
 path.insert(0, '../')
 from common.nlputils import NLPUtils
@@ -14,8 +14,8 @@ from common.nlputils import NLPUtils
 class Preprocessor:
 
     def preprocess(self, input_filename, verbose=False):
-        if not input_filename.startswith('/'):
-            input_filename = os.path.dirname(os.path.realpath(__file__)) + '/' + input_filename
+        # Convert to absolute path name
+        input_filename = os.path.realpath(input_filename)
 
         print('Processing text from {}'.format(input_filename))
         with open(input_filename, 'r') as input_file:

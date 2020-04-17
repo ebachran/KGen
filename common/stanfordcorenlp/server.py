@@ -1,6 +1,8 @@
 import os
+import platform
 import requests
 import sys
+import tempfile
 
 from argparse import ArgumentParser
 from subprocess import Popen
@@ -23,8 +25,8 @@ TIMEOUT = 15000
 SHUTDOWN_URL = URL + '/shutdown'
 
 TMPDIR_PROP = 'java.io.tmpdir'
-TMPDIR = '/tmp/'
-SHUTDOWN_KEY_FILE = TMPDIR + 'corenlp.shutdown'
+TMPDIR = tempfile.gettempdir()
+SHUTDOWN_KEY_FILE = os.path.join(TMPDIR, 'corenlp.shutdown')
 
 class Server:
     # Singleton
@@ -62,10 +64,13 @@ class Server:
         source_dir = os.path.dirname(os.path.abspath(__file__))
         if verbose:
             print('Starting Stanford CoreNLP Server from {}'.format(source_dir))
+        
+        if platform.system() == 'Windows':
+            jars = '{0}/stanford-corenlp.jar;{0}/stanford-corenlp-models.jar;{0}/slf4j-api.jar;{0}/slf4j-simple.jar;{0}/ejml.jar'.format(source_dir)
+        else:
+            jars = '{0}/stanford-corenlp.jar:{0}/stanford-corenlp-models.jar:{0}/slf4j-api.jar:{0}/slf4j-simple.jar:{0}/ejml.jar'.format(source_dir)
 
-        jars = '{0}/stanford-corenlp.jar:{0}/stanford-corenlp-models.jar:{0}/slf4j-api.jar:{0}/slf4j-simple.jar:{0}/ejml.jar'.format(source_dir)
-
-        command = 'java -D' + TMPDIR_PROP + '="' + TMPDIR + '" -mx5g' + \
+        command = 'java -D' + TMPDIR_PROP + '="' + TMPDIR + '" -mx8g' + \
                   ' -cp "' + jars + '" edu.stanford.nlp.pipeline.StanfordCoreNLPServer' + \
                   ' -port {} -timeout {}'.format(PORT, TIMEOUT)
 
@@ -83,7 +88,9 @@ class Server:
     def stopServer(self, verbose=False):
         assert self.isServerStarted(), 'ERROR: Server not running.'
 
-        shutdown_key = getoutput('cat ' + SHUTDOWN_KEY_FILE)
+        shutdown_file = open(SHUTDOWN_KEY_FILE, 'r')
+        shutdown_key = shutdown_file.read()
+        shutdown_file.close()
         if verbose:
             print('Stopping Stanford CoreNLP Server with {}?key={}'.format(SHUTDOWN_URL, shutdown_key))
 

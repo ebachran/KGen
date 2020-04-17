@@ -104,11 +104,11 @@ class ScispaCyWrapper:
             for entity in entities:
                 for umls_ent in entity._.umls_ents:
                     Concept_Id, Score = umls_ent
+                    umls_entity = umls_linker.umls.cui_to_entity[Concept_Id]
 
                     if verbose:
                         print("Name:" ,entity)
                         print('Concept_Id = {} Score = {}'.format(Concept_Id, Score))
-                        umls_entity = umls_linker.umls.cui_to_entity[Concept_Id]
                         print(umls_entity)
 
                     if not entity.text in linked: # greater scores are shown first, so no need to add smaller scores.

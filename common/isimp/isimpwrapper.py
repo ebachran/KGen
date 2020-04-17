@@ -1,5 +1,6 @@
 import json
 import os
+import platform
 
 from subprocess import Popen
 from sys import stderr
@@ -38,7 +39,10 @@ class iSimpWrapper:
         current_dir = os.getcwd()
         os.chdir(self.__isimp_location)
 
-        jars = './lib/*:./bin'
+        if platform.system() == 'Windows':
+            jars = './lib/*;./bin'
+        else:
+            jars = './lib/*:./bin'
         command = 'java -Xmx1024m -classpath ' + jars + ' main.Console -json -tokenized {} {}'.format(tmp_filename, tmp_out_filename)
 
         if verbose:

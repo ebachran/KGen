@@ -3,6 +3,8 @@ import os
 import urllib.parse
 import urllib.request
 
+from time import sleep
+
 KEY_FILE = 'ncbo.key'
 REST_URL = "http://data.bioontology.org"
 REST_URL_BASE_ANNOTATOR_PARAMS = "/annotator?"
@@ -43,6 +45,7 @@ class NCBOWrapper:
         params += "text=" + urllib.parse.quote(contents)
         url = REST_URL + params
 
+        sleep(1.0/15.0) # 15/sec limit (https://www.bioontology.org/wiki/Annotator_Optimizing_and_Troublehooting)
         opener = urllib.request.build_opener()
         opener.addheaders = [('Authorization', 'apikey token=' + self.__key)]
         return json.loads(opener.open(url).read())
@@ -55,6 +58,7 @@ class NCBOWrapper:
         params += "q=" + urllib.parse.quote(contents)
         url = REST_URL + params
 
+        sleep(1.0/15.0) # 15/sec limit (https://www.bioontology.org/wiki/Annotator_Optimizing_and_Troublehooting)
         opener = urllib.request.build_opener()
         opener.addheaders = [('Authorization', 'apikey token=' + self.__key)]
         return json.loads(opener.open(url).read())
@@ -69,5 +73,7 @@ class NCBOWrapper:
         params += "outputformat=" + "json"
 
         url = SPARQL_ENDPOINT_URL + params
+
+        sleep(1.0/15.0) # 15/sec limit (https://www.bioontology.org/wiki/Annotator_Optimizing_and_Troublehooting)
         opener = urllib.request.build_opener()
         return json.loads(opener.open(url).read())

@@ -1,0 +1,7 @@
+nltk==3.2.5
+pybabelfy==0.1
+scispacy==0.2.4
+https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.2.4/en_core_sci_lg-0.2.4.tar.gz==0.2.4
+spacy==2.2.1
+stanfordcorenlp==3.9.1.1
+tqdm==4.32.2

@@ -20,7 +20,7 @@ PORT = 9000
 BASE_URL = 'http://localhost'
 URL = BASE_URL + ':{}'.format(PORT)
 
-TIMEOUT = 15000
+TIMEOUT = 60000
 
 SHUTDOWN_URL = URL + '/shutdown'
 

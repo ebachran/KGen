@@ -13,4 +13,11 @@ class CoreNLPWrapper:
         if not 'outputFormat' in properties.keys():
             properties.update({'outputFormat': 'json'})
 
-        return json.loads(self.__corenlp.annotate(contents, properties))
+        try:
+            text = self.__corenlp.annotate(contents, properties)
+            decodedcontents = json.loads(text)
+        except Exception:
+            print('\nJSON decoding failed - check CoreNLP return:\n\n' + text + '\n')
+            raise
+            
+        return decodedcontents

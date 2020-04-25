@@ -1,6 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 
+echo "Extracting the contents of the zip file..."
+unzip stanford-corenlp-full-*.zip
+
 echo Copying CoreNLP jars...
 cd stanford-corenlp-full*
 
